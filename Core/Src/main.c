@@ -19,6 +19,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
+#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -47,6 +50,8 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void task1_handler(void* parameters);
+static void task2_handler(void* parameters);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -63,6 +68,9 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
+	TaskHandle_t  task1_handle;
+	TaskHandle_t  task2_handle;
+	BaseType_t  status;
 
   /* USER CODE END 1 */
 
@@ -79,6 +87,16 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  status  = xTaskCreate(task1_handler,"Task-1",200,"kj task 1",2,&task1_handle);
+
+  configASSERT(status == pdPASS);
+
+  status  = xTaskCreate(task2_handler,"Task-2",200,"kj task 2",2,&task2_handle);
+
+  configASSERT(status == pdPASS);
+
+  /*start the freeRTOS scheduler*/
+  vTaskStartScheduler();
 
   /* USER CODE END SysInit */
 
@@ -138,7 +156,23 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+static void task1_handler(void *parameter)
+{
+	while(1)
+	{
+		printf("%s\n", (char*)parameter);
 
+	}
+}
+
+static void task2_handler(void *parameter)
+{
+	while(1)
+	{
+		printf("%s\n", (char*)parameter);
+
+	}
+}
 /* USER CODE END 4 */
 
 /**
@@ -176,6 +210,8 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**
