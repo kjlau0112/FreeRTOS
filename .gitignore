@@ -1,4 +1,9 @@
 *.d
 *.o
 *.*
-Debug/*
+Debug/*.elf
+Debug/*.map
+Debug/*.su
+*.elf
+*.map
+*.su

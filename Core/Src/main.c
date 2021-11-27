@@ -161,6 +161,7 @@ static void task1_handler(void *parameter)
 	while(1)
 	{
 		printf("%s\n", (char*)parameter);
+		taskYIELD();
 
 	}
 }
@@ -170,7 +171,7 @@ static void task2_handler(void *parameter)
 	while(1)
 	{
 		printf("%s\n", (char*)parameter);
-
+		taskYIELD();
 	}
 }
 /* USER CODE END 4 */
